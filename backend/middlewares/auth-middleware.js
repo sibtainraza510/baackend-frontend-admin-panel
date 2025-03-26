@@ -25,6 +25,9 @@ const authMiddleware = async (req, res, next) => {
     const userData = await User.findOne({ email: isVerified.email }).select({
       password: 0,
     });
+    //or
+    // const userData = await User.findOne({ email: isVerified.email })
+
     console.log(userData);
 
     req.token = token;
