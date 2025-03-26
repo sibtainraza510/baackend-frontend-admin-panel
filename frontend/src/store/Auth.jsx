@@ -1,36 +1,33 @@
+
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [services, setServices] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
+  
   const authorizationToken = `Bearer ${token}`;
-
   const API = "https://mernadminba.onrender.com";
-  // const API = "https://api.thapatechnical.site";
-  // const API = import.meta.env.VITE_APP_URI_API;
 
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
-    return localStorage.setItem("token", serverToken);
+    localStorage.setItem("token", serverToken);
   };
 
-  let isLoggedIn = !!token;
-  console.log("isLoggedIN ", isLoggedIn);
-
-  // tackling the logout functionality
   const LogoutUser = () => {
     setToken("");
-    return localStorage.removeItem("token");
+    setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("token");
   };
-
-  // JWT AUTHENTICATION - to get the currently loggedIN user data
 
   const userAuthentication = async () => {
     try {
+      if (!token) return; // Prevent fetching without a token
+
       const response = await fetch(`${API}/api/auth/user`, {
         method: "GET",
         headers: {
@@ -43,23 +40,20 @@ export const AuthProvider = ({ children }) => {
         console.log("user data ", data.userData);
         setUser(data.userData);
       } else {
-        console.error("Error fetching user data");
+        console.error("Invalid token, logging out...");
+        LogoutUser(); // Logout if token is invalid
       }
     } catch (error) {
-      console.error("Error fetching user data");
+      console.error("Error fetching user data", error);
+      LogoutUser();
     }
   };
 
-  // to fetch the services data from the database
   const getServices = async () => {
     try {
-      const response = await fetch(`${API}/api/data/service`, {
-        method: "GET",
-      });
-
+      const response = await fetch(`${API}/api/data/service`, { method: "GET" });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.msg);
         setServices(data.msg);
       }
     } catch (error) {
@@ -68,23 +62,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (token) {
+      userAuthentication();
+    }
     getServices();
-    userAuthentication();
-  }, []);
-
-  //please subs to thapa technical channel .. also world best js course is coming soon
+  }, [token]); // Run when token changes
 
   return (
     <AuthContext.Provider
-      value={{
-        isLoggedIn,
-        storeTokenInLS,
-        LogoutUser,
-        user,
-        services,
-        authorizationToken,
-        API,
-      }}
+      value={{ isLoggedIn, storeTokenInLS, LogoutUser, user, services, authorizationToken, API }}
     >
       {children}
     </AuthContext.Provider>
