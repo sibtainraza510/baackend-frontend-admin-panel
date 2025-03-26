@@ -8,11 +8,19 @@ const contactRouter = require("./router/contact-router");
 const serviceRoute = require("./router/service-router");
 const errorMiddleware = require("./middlewares/error-middleware");
 
+// const corsOptions = {
+//   origin: "http://localhost:5173",
+//   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+//   credentials: true,
+// };
+
+
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://gleeful-cobbler-473357.netlify.app"],  // Add multiple origins
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
   credentials: true,
 };
+
 //middleware
 app.use(cors(corsOptions));
 
