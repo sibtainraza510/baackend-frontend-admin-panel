@@ -1,9 +1,26 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../store/Auth";
-import { useNavigate } from 'react-router-dom'; 
+// import { useNavigate } from 'react-router-dom'; 
 
 export const Service = () => {
+
+  const [servi, setservi] = useState([])
+  const [loading, setloading] = useState(true)
   const { services } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      setservi(services || [])
+    }
+    catch (err) {
+      console.log(err)
+    }
+    finally {
+      setloading(false)
+    }
+  } , [services])
 
 
   const handleCardClick = (youtubelink) => {
@@ -13,6 +30,10 @@ export const Service = () => {
     // navigate(youtubelink);
   };
 
+  if(loading){
+    return (<p>loading...................</p>)
+  }
+
   return (
     <section className="section-services">
       <div className="container">
@@ -20,7 +41,7 @@ export const Service = () => {
       </div>
 
       <div className="container grid grid-three-cols">
-        {services.map((curElem, index) => {
+        {servi.map((curElem, index) => {
           const { price, description, provider, service, youtubelink } = curElem;
 
           return (

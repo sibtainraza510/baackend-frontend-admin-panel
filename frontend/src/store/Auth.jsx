@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [services, setServices] = useState([]);
   const authorizationToken = `Bearer ${token}`;
 
-  const API = "http://localhost:5000";
+  const API = "https://mernadminba.onrender.com";
   // const API = "https://api.thapatechnical.site";
   // const API = import.meta.env.VITE_APP_URI_API;
 
