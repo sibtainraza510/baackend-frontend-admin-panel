@@ -1,17 +1,27 @@
 import { NavLink } from "react-router-dom";
-// import {useAuth} from "../store/Auth";
+import { useAuth } from "../store/Auth";
+import { Analytics } from "../pseudopages/Analytics";
 
-export const About = () => {
-  // const{user} = useAuth();
+ const About = () => {
+  const { user } = useAuth();
+  
+
   return (
     <>
       <main>
         <section className="section-hero">
           <div className="container grid grid-two-cols">
             <div className="hero-content">
-              {/* <p>We care to cure your Health</p> */}
-              {/* <p>Hii {user.username}</p> */}
-
+             
+              {/* <p>
+                Welcome,
+                {user ? ` ${user.username} to our website` : ` to our website`}
+              </p> */}
+              <p>
+              {user 
+              ? `Welcome, ${user.username} to our website` 
+              : "welcome to our website"}
+              </p>
               <h1>Why Choose Us? </h1>
               <p>
                 Expertise: Our team consists of experienced IT professionals who
@@ -32,7 +42,7 @@ export const About = () => {
                 on the quality of our services.
               </p>
               <p>
-                Reliability: Count on us to be there when you need us. We're
+                Reliability: Count on us to be there when you need us. We are
                 committed to ensuring your IT environment is reliable and
                 available 24/7.
               </p>
@@ -55,29 +65,13 @@ export const About = () => {
         </section>
       </main>
 
-      {/* <Analytics /> */}
-       {/* 2nd section  */}
-       <section className="section-analytics">
-        <div className="container grid grid-four-cols">
-          <div className="div1">
-            <h2>50+</h2>
-            <p>registered companies</p>
-          </div>
-          <div className="div1">
-            <h2>100,00+</h2>
-            <p>Happy Clients</p>
-          </div>
-          <div className="div1">
-            <h2>500+</h2>
-            <p>Well known Developers</p>
-          </div>
-          <div className="div1">
-            <h2>24/7</h2>
-            <p>service</p>
-          </div>
-        </div>
-      </section>
-
+      <Analytics />
     </>
   );
+  
 };
+
+export default About;
+
+
+
