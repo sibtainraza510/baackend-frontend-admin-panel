@@ -1,7 +1,24 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../store/Auth";
 
 export const Services = () => {
+  const [servi, setservi] = useState([])
+  const [loading, setloading] = useState(true)
+  
   const { services } = useAuth();
+
+  useEffect(() => {
+    try {
+      setservi(services || [])
+    }
+    catch (err) {
+      console.log(err)
+    }
+    finally {
+      setloading(false)
+    }
+  } , [services])
 
   const handleCardClick = (youtubelink) => {
     // Redirect to the YouTube link
@@ -10,6 +27,12 @@ export const Services = () => {
     // Or using React Router's navigate
     // navigate(youtubelink);
   };
+
+  if(loading){
+    return (
+      <p>Loading........</p>
+    )
+  }
 
   return (
     <section className="section-services">

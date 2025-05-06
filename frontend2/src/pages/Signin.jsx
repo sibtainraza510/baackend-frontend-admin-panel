@@ -9,7 +9,7 @@ const Signin = () =>{
     const[email, setemail] = useState("");
     const[password, setpassword] = useState("");
 
-    const {storeTokeninLS} = useAuth();
+    const {storeTokeninLS , APIR} = useAuth();
     const navigate = useNavigate();
  
     const handleformsubmit = async  (e) =>{
@@ -19,7 +19,7 @@ const Signin = () =>{
         setemail("");
 
         try{
-            const response = await fetch("http://localhost:8000/api/auth/login" , {
+            const response = await fetch(`${APIR}/api/auth/login` , {
                 method : "POST", headers : {
                     "Content-Type" : "application/json"
                 },
@@ -91,7 +91,7 @@ const Signin = () =>{
                             <h1 className="main-heading mb-3">Login form</h1>
                             <br></br>
 
-                            <form className={handleformsubmit} >
+                            <form  >
                                 <div>
                                 <label htmlFor="email">Email</label>
                                 <input  className="border-2 rounded-sm border-black border-solid p-1" type="email" name="email" id="email" required value={email} onChange={(e)=>{setemail(e.target.value)}}/>

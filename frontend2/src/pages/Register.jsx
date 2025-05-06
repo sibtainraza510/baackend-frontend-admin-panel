@@ -15,7 +15,7 @@ const Register = () =>{
     }
 
     const navigate = useNavigate();
-    const {storeTokeninLS} = useAuth()
+    const {storeTokeninLS , APIR} = useAuth()
 
     const handleformsubmit = async (e) =>{
         e.preventDefault();
@@ -23,7 +23,7 @@ const Register = () =>{
             fullname:"",  username: "", password: "", phone: "",email: ""
         })
         try{
-            const response = await fetch("http://localhost:8000/api/auth/register" , {
+            const response = await fetch(`${APIR}/api/auth/register` , {
                 method : "POST", headers : {
                     "Content-Type" : "application/json"
                 },
@@ -35,11 +35,12 @@ const Register = () =>{
 
             if(response.ok){
                 // alert("register successful");
+                storeTokeninLS( res_data.token)
                 toast.success("registration successful")
                 navigate("/")
                 // const res_data = await response.json();
                 // console.log(res_data);
-                storeTokeninLS( res_data.token)
+                
                 // localStorage.setItem("token" , res_data.token)  alternative using context API 
             }else{
             //    alert( res_data.extraDetails ? res_data.extraDetails : res_data.message);
@@ -110,7 +111,7 @@ const Register = () =>{
                     <h1 className="main-heading mb-3">Registration form</h1>
                     <br />
     
-                    <form onSubmit={handleformsubmit}>
+                    <form >
                         <div>
                     <label htmlFor="fullname">Fullname</label>
                      <input  type="text" name="fullname" id="fullname" required value={input.fullname} onChange={handleclick}/>

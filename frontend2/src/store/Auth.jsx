@@ -8,6 +8,9 @@ export const AuthProvider = ({children}) =>{
     const [services, setServices] = useState([]);
     const authorizationToken = `Bearer ${token}`;
 
+    const APIR = "https://baackend-frontend-admin-panel-1.onrender.com";
+
+
 
     
     const storeTokeninLS = (serverToken) =>{
@@ -29,7 +32,7 @@ export const AuthProvider = ({children}) =>{
         try {
           setisLoading(true);
          
-          const response = await fetch("http://localhost:8000/api/auth/user", {
+          const response = await fetch(`${APIR}/api/auth/user`, {
             method: "GET",
             headers: {
               Authorization: authorizationToken,
@@ -54,7 +57,7 @@ export const AuthProvider = ({children}) =>{
 
       const getServices = async () => {
         try {
-          const response = await fetch(`http://localhost:8000/api/data/service`, {
+          const response = await fetch(`${APIR}/api/data/service`, {
             method: "GET",
           });
     
@@ -79,7 +82,7 @@ export const AuthProvider = ({children}) =>{
       }, [token]);
 
     return(
-        <AuthContext.Provider value= {{storeTokeninLS , LogoutUser ,isLoggedIn, user, services , authorizationToken , isLoading}}>
+        <AuthContext.Provider value= {{storeTokeninLS , LogoutUser ,isLoggedIn, user, services , authorizationToken , isLoading , APIR}}>
             {children}
         </AuthContext.Provider>
     )

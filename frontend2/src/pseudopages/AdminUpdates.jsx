@@ -12,12 +12,12 @@ export const AdminUpdates = () => {
 
   const params = useParams();
   console.log("params single user: ", params);
-  const { authorizationToken } = useAuth();
+  const { authorizationToken  , APIR} = useAuth();
 
   //   get single user data
   const getSingleUserData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/adminroute/userdata/${params.id}`, {
+      const response = await fetch(`${APIR}/api/adminroute/userdata/${params.id}`, {
         method: "GET",
         headers: {
           Authorization: authorizationToken,
@@ -55,7 +55,7 @@ export const AdminUpdates = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/adminroute/userdata/update/${params.id}`,
+        `${APIR}/api/adminroute/userdata/update/${params.id}`,
         {
           method: "PATCH",
           headers: {

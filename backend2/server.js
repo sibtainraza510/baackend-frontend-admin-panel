@@ -10,7 +10,10 @@ const connectDB = require("./utils/database.js")
 const errorMiddleware = require("./middlewares/error.middleware.js")
 
 const corsOptions = {
-    origin : "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        "https://baackend-frontend-admin-panel-1.onrender.com"
+      ],
     methods : "GET, POST, DELETE, PATCH, PUT, HEAD",
     credentials : true
 }
